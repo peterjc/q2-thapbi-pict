@@ -1,0 +1,40 @@
+#Ignore the build directory (and its sub-directories):
+build
+thapbi_pict.egg-info
+
+#Ignore the distribution directory
+dist
+
+# Python compiled files
+*.pyc
+*.pyo
+*.py{}
+*.py-e
+
+#Slurm cluster logs,
+slurm-*.out
+
+#Ignore backup files from some editors,
+*~
+*.swp
+*.bak
+*#
+*/.#*
+
+#Ignore patches and any original files created by patch command
+*.diff
+*.patch
+*.orig
+*.rej
+
+#Ignore these hidden files from Mac OS X
+.DS_Store
+
+#Ignore random data files
+*.fastq
+*.fastq.gz
+*.sqlite
+*.zip
+
+#Ignore any local wheel files
+*.whl
