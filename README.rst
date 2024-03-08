@@ -1,0 +1,107 @@
+.. image:: https://img.shields.io/github/license/peterjc/q2-thapbi-pict.svg?label=License
+   :alt: MIT License
+   :target: https://github.com/peterjc/q2-thapbi-pict/blob/master/LICENSE.rst
+.. image:: https://results.pre-commit.ci/badge/github/peterjc/q2-thapbi-pict/master.svg
+   :target: https://results.pre-commit.ci/latest/github/peterjc/q2-thapbi-pict/master
+   :alt: pre-commit.ci status
+.. image:: https://img.shields.io/conda/vn/bioconda/q2-thapbi-pict.svg?label=Bioconda
+   :alt: q2-thapbi-pict on BioConda
+   :target: https://anaconda.org/bioconda/q2-thapbi-pict
+.. image:: https://img.shields.io/badge/Code%20style-black-000000.svg
+   :alt: Code style: black
+   :target: https://github.com/python/black
+
+
+Qiime2 plugin for THAPBI PICT (q2-thapbi-pict)
+==============================================
+
+About
+-----
+
+`Qiime2 <https://qiime2.org/>`__ is a microbiome bioinformatics platform with
+integrated data provenance tracking and a `plugin system
+<https://library.qiime2.org/plugins/>`__ allowing modular construction of
+analysis and visualisation pipelines.
+
+`THAPBI PICT <https://github.com/peterjc/thapbi-pict>`__ is a sequence based
+diagnostic/profiling tool started under the UK funded Tree Health and Plant
+Biosecurity Initiative (THAPBI) `Phyto-Threats project
+<https://www.forestresearch.gov.uk/research/global-threats-from-phytophthora-spp/>`__.
+PICT stood for *Phytophthora* ITS1 Classification Tool, reflecting the initial
+application focus.
+
+With appropriate primer settings and a custom database of full length markers,
+THAPBI PICT can be applied to other organisms and/or barcode marker sequences.
+It requires overlapping paired-end Illumina reads which can be merged to cover
+the *full* amplicon marker. Longer markers or fragmented amplicons are not
+supported. Internally it works by tracking unique amplicon sequence variants
+(ASVs), using MD5 checksums as identifiers.
+
+The THAPBI PICT tool provides a command line interface including a pipeline
+from demultiplexed FASTQ files and optional metadata as TSV files though to
+ASV tally tables with taxonomic classification as TSV, Excel or BIOM files.
+
+This repository is for ``q2-thapbi-pict``, a plugin to call some of the THAPBI
+PICT functionality from within Qiime2.
+
+
+Installation
+------------
+
+As per the Qiime2 ecosystem, we recommend installing the plugin (and the
+underlying tools) on Linux or macOS using the `Conda <https://conda.io/>`__
+packaging system, which will handle *all* the dependencies:
+
+.. code:: console
+
+   $ conda install q2-thapbi-pict
+
+Qiime2 is not available natively on Windows, instead they recommend using the
+Windows Subsystem for Linux (WSL).
+
+
+Quick Start
+-----------
+
+Once installed, you should be able to run the tool at the command line using
+the Qiime2 command line interface (q2cli):
+
+.. code:: console
+
+    $ qiime info
+    System versions
+    Python version: 3.8.18
+    QIIME 2 release: 2024.2
+    QIIME 2 version: 2024.2.0
+    q2cli version: 2024.2.0
+   
+    Installed plugins
+    types: 2024.2.0
+    ...
+
+This should list the THAPBI PICT plugin under "Installed plugins".
+
+
+Documentation
+-------------
+
+The `THAPBI PICT documentation <https://thapbi-pict.readthedocs.io/>`_ is
+hosted by `Read The Docs <https://readthedocs.org/>`_.
+
+
+Citation
+--------
+
+If you use THAPBI PICT in your work, please cite our *PeerJ* paper, and give
+details of the version and any non-default settings used in your methods:
+
+    Cock *et al.* (2023) "THAPBI PICT - a fast, cautious, and accurate
+    metabarcoding analysis pipeline" *PeerJ* **11**:e15648
+    https://doi.org/10.7717/peerj.15648
+
+You can also cite the software specifically via Zenodo which offers version
+specific DOIs as well as https://doi.org/10.5281/zenodo.4529395 which is for
+the latest version.
+
+Qiime2 helps by tracking the citations for all the tools your analysis uses.
+This should include any tools used via plugins, such as Flash and CutAdapt.
