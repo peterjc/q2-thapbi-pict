@@ -23,6 +23,7 @@ from qiime2.plugin import Float
 from qiime2.plugin import Int
 from qiime2.plugin import Plugin
 from qiime2.plugin import Range
+from qiime2.plugin import Str
 from qiime2.plugin import Threads
 
 import q2_thapbi_pict
@@ -46,11 +47,13 @@ plugin.methods.register_function(
     function=q2_thapbi_pict.prepare_reads_sample_tally,
     inputs={"demultiplexed_seqs": SampleData[PairedEndSequencesWithQuality]},
     parameters={
+        "primer_definition": Str,
         "abundance": Int % Range(2, None),
         "abundance_fraction": Float
         % Range(0, 1, inclusive_start=True, inclusive_end=True),
         "flip": Bool,
         "cpu": Threads,
+        "debug": Bool,
     },
     outputs=[
         ("asv_vs_sample_table", FeatureTable[Frequency]),
@@ -60,6 +63,12 @@ plugin.methods.register_function(
         "demultiplexed_seqs": "The paired-end sequences to be merged and tallied."
     },
     parameter_descriptions={
+        "primer_definition": (
+            "Semi-colon separated list of amplicon and primer definitions in the "
+            "form <NAME>:<LEFT>:<RIGHT>:<MINLEN>:<MAXLEN> where IUPAC ambiguitity "
+            "codes can be used for the primer sequences, and the lengths can be "
+            "omitted defaulting to 100 and 1000bp."
+        ),
         "abundance": (
             "Minimum abundance applied to unique marker sequences in each sample "
             "(i.e. each FASTQ pair). Default 100."
@@ -74,6 +83,7 @@ plugin.methods.register_function(
         ),
         "flip": "Also check reverse complement strand for primers.",
         "cpu": "How many threads to use, zero meaning all available.",
+        "debug": "Run in debug mode, use with --verbose enabled.",
     },
     output_descriptions={
         "asv_vs_sample_table": "Feature table, counts of ASV sequences vs samples.",
