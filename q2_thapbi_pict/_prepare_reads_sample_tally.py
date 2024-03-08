@@ -12,9 +12,11 @@ import tempfile
 import biom
 from q2_types.feature_data import DNAIterator
 from q2_types.per_sample_sequences import SingleLanePerSamplePairedEndFastqDirFmt
+from thapbi_pict.__main__ import check_cpu
 from thapbi_pict.__main__ import connect_to_db
 from thapbi_pict.db_import import import_fasta_file
 from thapbi_pict.prepare import main as prepare_reads
+from thapbi_pict.sample_tally import main as sample_tally
 
 
 def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
@@ -66,10 +68,14 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
             os.path.join(qza_folder, rev[sample]),
             os.path.join(raw_data, sample + "_R2.fastq.gz"),
         )
+        if debug:
+            sys.stderr.write("DEBUG: Skipping rest of samples!!!!\n")
+            break
 
 
-def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> None:
+def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> list:
     """Define primers in temporary THAPBI PICT database."""
+    markers = []
     for primer in primer_definition.split(";"):
         marker, left, right, minlen, maxlen = primer.split(":")
         minlen = int(minlen) if minlen else None
@@ -96,8 +102,10 @@ def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> No
             genus_only=False,
             tmp_dir=None,
         )
+        markers.append(marker)
         if debug:
             sys.stderr.write(f"DEBUG: Created {marker} definition\n")
+    return markers
 
 
 def prepare_reads_sample_tally(
@@ -120,6 +128,8 @@ def prepare_reads_sample_tally(
     The other parameters are passed to THAPBI PICT ``prepare-reads`` and
     ``sample-tally`` as they are.
     """
+    cpu = check_cpu(cpu)
+
     tmp_obj = tempfile.TemporaryDirectory()
     tmp_dir = tmp_obj.name
 
@@ -131,12 +141,14 @@ def prepare_reads_sample_tally(
     # Setup the dummy THAPBI PICT database
     db_filename = os.path.join(tmp_dir, "primers.sqlite")
     db_url = "sqlite:///" + db_filename
-    setup_marker(db_url, primer_definition, debug=debug)
+    markers = setup_marker(db_url, primer_definition, debug=debug)
     session = connect_to_db(db_url)()
 
     # Call THAPBI PICT prepare-reads
     out_dir = os.path.join(tmp_dir, "intermediate")
     os.mkdir(out_dir)
+    if debug:
+        sys.stderr.write("DEBUG: Now starting THAPBI PICT prepare-reads\n")
     fasta_list = prepare_reads(
         fastq=[raw_data],
         out_dir=out_dir,
@@ -146,7 +158,7 @@ def prepare_reads_sample_tally(
         min_abundance_fraction=abundance_fraction,
         ignore_prefixes=None,
         merged_cache=None,
-        tmp_dir=None,
+        tmp_dir=tmp_dir,
         debug=debug,
         cpu=cpu,
     )
@@ -154,7 +166,33 @@ def prepare_reads_sample_tally(
         sys.stderr.write(f"DEBUG: Have {len(fasta_list)} intermediate FASTA files\n")
 
     # Call THAPBI PICT sample-tally
-    # ...
+    for marker in markers:
+        if debug:
+            sys.stderr.write(
+                f"DEBUG: Now starting THAPBI PICT sample-tally for {marker}\n"
+            )
+        sample_tally(
+            inputs=[
+                _ for _ in fasta_list if _.startswith(os.path.join(out_dir, marker))
+            ],
+            synthetic_controls=[],
+            negative_controls=[],
+            output=os.path.join(tmp_dir, marker + ".tally.tsv"),
+            session=session,
+            marker=marker,
+            spike_genus="",
+            min_abundance=abundance,
+            min_abundance_fraction=abundance_fraction,
+            # Historical behaviour, discards rare control-only ASVs:
+            total_min_abundance=abundance,
+            # denoise_algorithm="args.denoise",
+            # unoise_alpha=args.unoise_alpha,
+            # unoise_gamma=args.unoise_gamma,
+            # biom=os.path.join(tmp_dir, marker + ".tally.biom"),
+            tmp_dir=tmp_dir,
+            debug=debug,
+            cpu=cpu,
+        )
     session.close()
 
     # Wrap output for QIIME2
