@@ -12,6 +12,9 @@ import tempfile
 import biom
 from q2_types.feature_data import DNAIterator
 from q2_types.per_sample_sequences import SingleLanePerSamplePairedEndFastqDirFmt
+from thapbi_pict.__main__ import connect_to_db
+from thapbi_pict.db_import import import_fasta_file
+from thapbi_pict.prepare import main as prepare_reads
 
 
 def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
@@ -65,6 +68,38 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
         )
 
 
+def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> None:
+    """Define primers in temporary THAPBI PICT database."""
+    for primer in primer_definition.split(";"):
+        marker, left, right, minlen, maxlen = primer.split(":")
+        minlen = int(minlen) if minlen else None
+        maxlen = int(maxlen) if maxlen else None
+
+        assert db_url.startswith("sqlite:///") and db_url.endswith(".sqlite")
+        tmp_fasta = f"{db_url[10:-7]}.{marker}.fasta"
+        with open(tmp_fasta, "w") as handle:
+            handle.write(f"#{marker}\n")
+
+        import_fasta_file(
+            fasta_file=tmp_fasta,
+            db_url=db_url,
+            fasta_entry_fn=None,
+            entry_taxonomy_fn=None,
+            marker=marker,
+            left_primer=left,
+            right_primer=right,
+            min_length=minlen,
+            max_length=maxlen,
+            name="Defining {marker}",
+            debug=debug,
+            validate_species=False,
+            genus_only=False,
+            tmp_dir=None,
+        )
+        if debug:
+            sys.stderr.write(f"DEBUG: Created {marker} definition\n")
+
+
 def prepare_reads_sample_tally(
     demultiplexed_seqs: SingleLanePerSamplePairedEndFastqDirFmt,
     primer_definition: str,
@@ -93,14 +128,34 @@ def prepare_reads_sample_tally(
     os.mkdir(raw_data)
     setup_rawdata(str(demultiplexed_seqs), raw_data, debug=debug)
 
-    # Setup the dumming THAPBI PICT database
-    # ...
+    # Setup the dummy THAPBI PICT database
+    db_filename = os.path.join(tmp_dir, "primers.sqlite")
+    db_url = "sqlite:///" + db_filename
+    setup_marker(db_url, primer_definition, debug=debug)
+    session = connect_to_db(db_url)()
 
     # Call THAPBI PICT prepare-reads
-    # ...
+    out_dir = os.path.join(tmp_dir, "intermediate")
+    os.mkdir(out_dir)
+    fasta_list = prepare_reads(
+        fastq=[raw_data],
+        out_dir=out_dir,
+        session=session,
+        flip=flip,
+        min_abundance=abundance,
+        min_abundance_fraction=abundance_fraction,
+        ignore_prefixes=None,
+        merged_cache=None,
+        tmp_dir=None,
+        debug=debug,
+        cpu=cpu,
+    )
+    if debug:
+        sys.stderr.write(f"DEBUG: Have {len(fasta_list)} intermediate FASTA files\n")
 
     # Call THAPBI PICT sample-tally
     # ...
+    session.close()
 
     # Wrap output for QIIME2
     # ...
