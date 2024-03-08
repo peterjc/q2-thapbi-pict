@@ -5,6 +5,4 @@
 # file that should have been included as part of this package.
 """Qiime2 plugin for THAPBI PICT."""
 
-import thapbi_pict
-
-__version__ = f"THAPBI PICT v{thapbi_pict.__version__}; Plugin v0.0.1"
+__version__ = "0.0.1"

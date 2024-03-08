@@ -31,7 +31,7 @@ from __future__ import with_statement  # noqa: UP010
 import sys
 
 try:
-    from setuptools import find_packages
+    # from setuptools import find_packages
     from setuptools import setup
 except ImportError:
     sys.exit(
@@ -51,7 +51,7 @@ if sys.version_info[:2] < (3, 7):  # noqa: UP036
 # Here we can't use "import thapbi_pict" then "thapbi_pict.__version__"
 # as that would tell us the version already installed (if any).
 __version__ = "Undefined"
-with open("thapbi_pict/__init__.py") as handle:
+with open("q2_thapbi_pict/__init__.py") as handle:
     for line in handle:
         if line.startswith("__version__ = "):
             exec(line.strip())
@@ -96,10 +96,12 @@ setup(
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
     python_requires=">=3.7",
-    entry_points={'qiime2.plugins': ['q2-thapbi-pict=q2_thapbi_pict.plugin_setup:plugin']},
+    entry_points={
+        "qiime2.plugins": ["q2-thapbi-pict=q2_thapbi_pict.plugin_setup:plugin"]
+    },
     package_data={
-        'q2_thapbi_pict': ['citations.bib'],
-    }
+        "q2_thapbi_pict": ["citations.bib"],
+    },
     include_package_data=True,
     install_requires=[
         "thapbi_pict >=1.0.0",
