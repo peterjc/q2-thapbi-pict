@@ -105,6 +105,8 @@ def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> li
     return markers
 
 
+# Can't say (dict[biom.Table], dict[DNAFASTAFormat]) in Python 3.8
+# and Qiime2 wants us to to say (biom.Table, DNAFASTAFormat) instead.
 def prepare_reads_sample_tally(
     demultiplexed_seqs: SingleLanePerSamplePairedEndFastqDirFmt,
     primer_definition: str,
@@ -162,6 +164,9 @@ def prepare_reads_sample_tally(
     if debug:
         sys.stderr.write(f"DEBUG: Have {len(fasta_list)} intermediate FASTA files\n")
 
+    biom_out_dict = {}
+    fasta_out_dict = {}
+
     # Call THAPBI PICT sample-tally
     for marker in markers:
         if debug:
@@ -198,14 +203,15 @@ def prepare_reads_sample_tally(
 
         with open(tally_file) as handle:
             biom_out = biom.Table.from_tsv(handle, None, None, lambda x: x)
-        break  # Can only return one so far...
-    session.close()
+        biom_out.type = "OTU table"  # Qiime does not seem to preserve this?
 
-    # Wrap output for QIIME2
-    # ...
+        # Turn this into a dict for the output Collection
+        biom_out_dict[marker] = biom_out
+        fasta_out_dict[marker] = fasta_out
+    session.close()
 
     if debug:
         sys.stderr.write(f"DEBUG: Please delete {tmp_dir}\n")
     else:
         tmp_obj.cleanup()
-    return biom_out, fasta_out
+    return biom_out_dict, fasta_out_dict

@@ -19,6 +19,7 @@ from q2_types.per_sample_sequences import PairedEndSequencesWithQuality
 from q2_types.sample_data import SampleData
 from qiime2.plugin import Bool
 from qiime2.plugin import Citations
+from qiime2.plugin import Collection
 from qiime2.plugin import Float
 from qiime2.plugin import Int
 from qiime2.plugin import Plugin
@@ -60,8 +61,8 @@ plugin.methods.register_function(
     # TODO - make these into collections, one per marker?
     # https://dev.qiime2.org/latest/actions/collections/
     outputs=[
-        ("asv_vs_sample_table", FeatureTable[Frequency]),
-        ("asv_sequences", FeatureData[Sequence]),
+        ("asv_vs_sample_table", Collection[FeatureTable[Frequency]]),
+        ("asv_sequences", Collection[FeatureData[Sequence]]),
     ],
     input_descriptions={
         "demultiplexed_seqs": "The paired-end sequences to be merged and tallied."
@@ -90,8 +91,12 @@ plugin.methods.register_function(
         "debug": "Run in debug mode, use with --verbose enabled.",
     },
     output_descriptions={
-        "asv_vs_sample_table": "Feature table, counts of ASV sequences vs samples.",
-        "asv_sequences": "Accepted ASV sequences matching the feature table.",
+        "asv_vs_sample_table": (
+            "Feature table per amplicon, counts of ASV sequences vs samples."
+        ),
+        "asv_sequences": (
+            "Accepted ASV sequences per amplicon, matching the feature table."
+        ),
     },
     name="Prepare reads and tally by sample using THAPBI PICT",
     description=(
