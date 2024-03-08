@@ -45,6 +45,8 @@ plugin = Plugin(
 
 plugin.methods.register_function(
     function=q2_thapbi_pict.prepare_reads_sample_tally,
+    # TODO - make this a collection to accept multiple FASTQ sets of QZA files:
+    # https://dev.qiime2.org/latest/actions/collections/
     inputs={"demultiplexed_seqs": SampleData[PairedEndSequencesWithQuality]},
     parameters={
         "primer_definition": Str,
@@ -55,6 +57,8 @@ plugin.methods.register_function(
         "cpu": Threads,
         "debug": Bool,
     },
+    # TODO - make these into collections, one per marker?
+    # https://dev.qiime2.org/latest/actions/collections/
     outputs=[
         ("asv_vs_sample_table", FeatureTable[Frequency]),
         ("asv_sequences", FeatureData[Sequence]),

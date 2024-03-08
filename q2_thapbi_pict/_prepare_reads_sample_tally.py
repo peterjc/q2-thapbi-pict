@@ -10,7 +10,7 @@ import sys
 import tempfile
 
 import biom
-from q2_types.feature_data import DNAIterator
+from q2_types.feature_data import DNAFASTAFormat
 from q2_types.per_sample_sequences import SingleLanePerSamplePairedEndFastqDirFmt
 from thapbi_pict.__main__ import check_cpu
 from thapbi_pict.__main__ import connect_to_db
@@ -116,7 +116,7 @@ def prepare_reads_sample_tally(
     flip: bool = False,
     cpu: int = 0,
     debug: bool = False,
-) -> (biom.Table, DNAIterator):
+) -> (biom.Table, DNAFASTAFormat):
     """THAPBI PICT's prepare-reads and sample-tally.
 
     Starts by making a temporary workind directory. Into this it creates a
@@ -171,13 +171,17 @@ def prepare_reads_sample_tally(
             sys.stderr.write(
                 f"DEBUG: Now starting THAPBI PICT sample-tally for {marker}\n"
             )
+
+        tally_file = os.path.join(tmp_dir, marker + ".tally.tsv")
+        fasta_out = DNAFASTAFormat()
+
         sample_tally(
             inputs=[
                 _ for _ in fasta_list if _.startswith(os.path.join(out_dir, marker))
             ],
             synthetic_controls=[],
             negative_controls=[],
-            output=os.path.join(tmp_dir, marker + ".tally.tsv"),
+            output=tally_file,
             session=session,
             marker=marker,
             spike_genus="",
@@ -189,10 +193,15 @@ def prepare_reads_sample_tally(
             # unoise_alpha=args.unoise_alpha,
             # unoise_gamma=args.unoise_gamma,
             # biom=os.path.join(tmp_dir, marker + ".tally.biom"),
+            fasta=str(DNAFASTAFormat),
             tmp_dir=tmp_dir,
             debug=debug,
             cpu=cpu,
         )
+
+        with open(tally_file) as handle:
+            biom_out = biom.Table.from_tsv(handle, None, None, lambda x: x)
+        break  # Can only return one so far...
     session.close()
 
     # Wrap output for QIIME2
@@ -202,4 +211,4 @@ def prepare_reads_sample_tally(
         sys.stderr.write(f"DEBUG: Please delete {tmp_dir}\n")
     else:
         tmp_obj.cleanup()
-    return None, None
+    return biom_out, fasta_out
