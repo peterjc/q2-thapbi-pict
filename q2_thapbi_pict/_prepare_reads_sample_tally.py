@@ -68,9 +68,6 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
             os.path.join(qza_folder, rev[sample]),
             os.path.join(raw_data, sample + "_R2.fastq.gz"),
         )
-        if debug:
-            sys.stderr.write("DEBUG: Skipping rest of samples!!!!\n")
-            break
 
 
 def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> list:
@@ -193,7 +190,7 @@ def prepare_reads_sample_tally(
             # unoise_alpha=args.unoise_alpha,
             # unoise_gamma=args.unoise_gamma,
             # biom=os.path.join(tmp_dir, marker + ".tally.biom"),
-            fasta=str(DNAFASTAFormat),
+            fasta=str(fasta_out),
             tmp_dir=tmp_dir,
             debug=debug,
             cpu=cpu,
