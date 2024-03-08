@@ -74,13 +74,33 @@ the Qiime2 command line interface (q2cli):
     QIIME 2 release: 2024.2
     QIIME 2 version: 2024.2.0
     q2cli version: 2024.2.0
-   
+
     Installed plugins
-    types: 2024.2.0
     ...
 
-This should list the THAPBI PICT plugin under "Installed plugins".
+This should list the THAPBI PICT plugin under "Installed plugins". You should
+be able to run it and see basic instructions too:
 
+.. code:: console
+
+    $ qiime q2-thapbi-pict --help
+    Usage: qiime q2-thapbi-pict [OPTIONS] COMMAND [ARGS]...
+
+      Description: This QIIME 2 plugin provides support for running some of the
+      THAPBI PICT functionality.
+
+    ...
+
+This lists the available commands, each of which have their own help page:
+
+.. code:: console
+
+
+    $ qiime q2-thapbi-pict prepare-reads-sample-tally --help
+    Usage: qiime q2-thapbi-pict prepare-reads-sample-tally [OPTIONS]
+
+      Takes paired (raw) FASTQ files demultiplexed per sample. Runs THAPBI PICT
+      ...
 
 Documentation
 -------------
