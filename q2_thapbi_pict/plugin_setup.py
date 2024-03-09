@@ -48,7 +48,9 @@ plugin.methods.register_function(
     function=q2_thapbi_pict.prepare_reads_sample_tally,
     # TODO - make this a collection to accept multiple FASTQ sets of QZA files:
     # https://dev.qiime2.org/latest/actions/collections/
-    inputs={"demultiplexed_seqs": SampleData[PairedEndSequencesWithQuality]},
+    inputs={
+        "demultiplexed_seqs": Collection[SampleData[PairedEndSequencesWithQuality]]
+    },
     parameters={
         "primer_definition": Str,
         "abundance": Int % Range(2, None),

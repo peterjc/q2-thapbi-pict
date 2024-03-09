@@ -107,6 +107,7 @@ def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> li
 
 # Can't say (dict[biom.Table], dict[DNAFASTAFormat]) in Python 3.8
 # and Qiime2 wants us to to say (biom.Table, DNAFASTAFormat) instead.
+# Likewise for the demultiplexed_seqs
 def prepare_reads_sample_tally(
     demultiplexed_seqs: SingleLanePerSamplePairedEndFastqDirFmt,
     primer_definition: str,
@@ -135,7 +136,12 @@ def prepare_reads_sample_tally(
     # Setup the FASTQ inputs (could extend to multiple QZA files...)
     raw_data = os.path.join(tmp_dir, "raw_data")
     os.mkdir(raw_data)
-    setup_rawdata(str(demultiplexed_seqs), raw_data, debug=debug)
+    for key, qza in demultiplexed_seqs.items():
+        # Give each QZA file its own subdirectory (and thus pool
+        # if we can later apply control driven abundance thresholds)
+        qza_pool = os.path.join(tmp_dir, "raw_data", str(key))
+        os.mkdir(qza_pool)
+        setup_rawdata(str(qza), qza_pool, debug=debug)
 
     # Setup the dummy THAPBI PICT database
     db_filename = os.path.join(tmp_dir, "primers.sqlite")
