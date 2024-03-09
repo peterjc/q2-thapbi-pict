@@ -217,7 +217,7 @@ def prepare_reads_sample_tally(
     session.close()
 
     if debug:
-        sys.stderr.write(f"DEBUG: Please delete {tmp_dir}\n")
-    else:
-        tmp_obj.cleanup()
+        sys.stderr.write(f"DEBUG: Removing q2-thapbi-pict temp folder {tmp_dir}\n")
+    tmp_obj.cleanup()
+
     return biom_out_dict, fasta_out_dict
