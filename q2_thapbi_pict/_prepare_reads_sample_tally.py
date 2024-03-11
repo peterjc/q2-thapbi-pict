@@ -211,6 +211,7 @@ def prepare_reads_sample_tally(
             cpu=cpu,
         )
 
+        # TODO - capture the metadata too
         with open(tally_file) as handle:
             biom_out = biom.Table.from_tsv(handle, None, None, lambda x: x)
         biom_out.type = "OTU table"  # Qiime does not seem to preserve this?
