@@ -8,6 +8,7 @@
 import os
 import sys
 import tempfile
+from typing import Optional
 
 import biom
 from q2_types.feature_data import DNAFASTAFormat
@@ -114,6 +115,9 @@ def prepare_reads_sample_tally(
     abundance: int = 100,
     abundance_fraction: float = 0.001,
     flip: bool = False,
+    denoise: str = "-",
+    unoise_alpha: Optional[float] = None,
+    unoise_gamma: Optional[int] = None,
     cpu: int = 0,
     debug: bool = False,
 ) -> (biom.Table, DNAFASTAFormat):
@@ -197,9 +201,9 @@ def prepare_reads_sample_tally(
             min_abundance_fraction=abundance_fraction,
             # Historical behaviour, discards rare control-only ASVs:
             total_min_abundance=abundance,
-            # denoise_algorithm="args.denoise",
-            # unoise_alpha=args.unoise_alpha,
-            # unoise_gamma=args.unoise_gamma,
+            denoise_algorithm=denoise,
+            unoise_alpha=unoise_alpha,
+            unoise_gamma=unoise_gamma,
             # biom=os.path.join(tmp_dir, marker + ".tally.biom"),
             fasta=str(fasta_out),
             tmp_dir=tmp_dir,

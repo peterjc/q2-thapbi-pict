@@ -57,6 +57,9 @@ plugin.methods.register_function(
         "abundance_fraction": Float
         % Range(0, 1, inclusive_start=True, inclusive_end=True),
         "flip": Bool,
+        "denoise": Str,
+        "unoise_alpha": Float % Range(0, None),
+        "unoise_gamma": Int % Range(1, None),
         "cpu": Threads,
         "debug": Bool,
     },
@@ -89,7 +92,26 @@ plugin.methods.register_function(
             # "applied to negative controls."
         ),
         "flip": "Also check reverse complement strand for primers.",
-        "cpu": "How many threads to use, zero meaning all available.",
+        "denoise": (
+            "Optional read-correction algorithm, default '-' for none. Use 'unoise-l' "
+            "for built-in reimplementation of the Levenshtein distance UNOISE "
+            "algorithm as described in Edgar (2016). Use 'usearch' to call external "
+            "tool 'usearch -unoise3 ...' and the original author's UNOISE3 "
+            "implementation. Use 'vsearch' to call external tool 'vsearch "
+            "--cluster_unoise ...' and their UNOISE3 reimplementation using pairwise "
+            "alignment based distance."
+        ),
+        "unoise_alpha": (
+            "UNOISE read-correction alpha parameter (α), used in "
+            "skew threshold function beta (β). Default 2.0 for UNOISE-L, "
+            "tool defaults for USEARCH and VSEARCH."
+        ),
+        "unoise_gamma": (
+            "UNOISE read-correction gamma parameter (γ). Variants "
+            "below this total abundance are discarded before denoising. Default 4 "
+            "for UNOISE-L, tool defaults for USEARCH and VSEARCH."
+        ),
+        "cpu": "How many threads to use, zero meaning all available. Default 1.",
         "debug": "Run in debug mode, use with --verbose enabled.",
     },
     output_descriptions={
