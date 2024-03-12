@@ -10,8 +10,8 @@ import sys
 import tempfile
 from typing import Optional
 
-import biom
 from q2_types.feature_data import DNAFASTAFormat
+from q2_types.feature_table import BIOMV210Format
 from q2_types.per_sample_sequences import SingleLanePerSamplePairedEndFastqDirFmt
 from thapbi_pict.__main__ import check_cpu
 from thapbi_pict.__main__ import connect_to_db
@@ -120,7 +120,7 @@ def prepare_reads_sample_tally(
     unoise_gamma: Optional[int] = None,
     cpu: int = 0,
     debug: bool = False,
-) -> (biom.Table, DNAFASTAFormat):
+) -> (BIOMV210Format, DNAFASTAFormat):
     """THAPBI PICT's prepare-reads and sample-tally.
 
     Starts by making a temporary workind directory. Into this it creates a
@@ -184,7 +184,8 @@ def prepare_reads_sample_tally(
                 f"DEBUG: Now starting THAPBI PICT sample-tally for {marker}\n"
             )
 
-        tally_file = os.path.join(tmp_dir, marker + ".tally.tsv")
+        tally_out = os.path.join(tmp_dir, marker + ".tally.tsv")
+        biom_out = BIOMV210Format()
         fasta_out = DNAFASTAFormat()
 
         sample_tally(
@@ -193,7 +194,7 @@ def prepare_reads_sample_tally(
             ],
             synthetic_controls=[],
             negative_controls=[],
-            output=tally_file,
+            output=tally_out,
             session=session,
             marker=marker,
             spike_genus="",
@@ -204,17 +205,12 @@ def prepare_reads_sample_tally(
             denoise_algorithm=denoise,
             unoise_alpha=unoise_alpha,
             unoise_gamma=unoise_gamma,
-            # biom=os.path.join(tmp_dir, marker + ".tally.biom"),
+            biom=str(biom_out),
             fasta=str(fasta_out),
             tmp_dir=tmp_dir,
             debug=debug,
             cpu=cpu,
         )
-
-        # TODO - capture the metadata too
-        with open(tally_file) as handle:
-            biom_out = biom.Table.from_tsv(handle, None, None, lambda x: x)
-        biom_out.type = "OTU table"  # Qiime does not seem to preserve this?
 
         # Turn this into a dict for the output Collection
         biom_out_dict[marker] = biom_out
