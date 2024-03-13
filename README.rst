@@ -1,8 +1,8 @@
 .. image:: https://img.shields.io/github/license/peterjc/q2-thapbi-pict.svg?label=License
    :alt: MIT License
-   :target: https://github.com/peterjc/q2-thapbi-pict/blob/master/LICENSE.rst
+   :target: https://github.com/peterjc/q2-thapbi-pict/blob/main/LICENSE.rst
 .. image:: https://results.pre-commit.ci/badge/github/peterjc/q2-thapbi-pict/master.svg
-   :target: https://results.pre-commit.ci/latest/github/peterjc/q2-thapbi-pict/master
+   :target: https://results.pre-commit.ci/latest/github/peterjc/q2-thapbi-pict/main
    :alt: pre-commit.ci status
 .. image:: https://img.shields.io/badge/Code%20style-black-000000.svg
    :alt: Code style: black
