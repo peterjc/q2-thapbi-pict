@@ -67,7 +67,7 @@ with open("README.rst", "rb") as handle:
     readme_rst = handle.read().decode("ascii")
 
 setup(
-    name="q2-thapbi-pict",
+    name="q2_thapbi_pict",
     version=__version__,
     author="Peter Cock",
     author_email="peter.cock@hutton.ac.uk",
