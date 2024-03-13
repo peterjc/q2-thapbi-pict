@@ -81,7 +81,7 @@ plugin.methods.register_function(
         ),
         "abundance": (
             "Minimum abundance applied to unique marker sequences in each sample "
-            "(i.e. each FASTQ pair). Default 100."
+            "(i.e. each FASTQ pair)."
             # "May be increased based on "
             # "negative controls. Half this value is applied to synthetic controls."
         ),
@@ -111,7 +111,7 @@ plugin.methods.register_function(
             "below this total abundance are discarded before denoising. Default 4 "
             "for UNOISE-L, tool defaults for USEARCH and VSEARCH."
         ),
-        "cpu": "How many threads to use, zero meaning all available. Default 1.",
+        "cpu": "How many threads to use, zero meaning all available.",
         "debug": "Run in debug mode, use with --verbose enabled.",
     },
     output_descriptions={
