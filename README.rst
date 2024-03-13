@@ -56,7 +56,7 @@ using the `Conda <https://conda.io/>`__ packaging system.
 
    .. code:: console
 
-        $ conda install bioconda::thapbi-pict
+        $ conda install -c bioconda thapbi_pict
 
 3. Install the THAPBI PICT plugin for Qiime2 using pip:
 
