@@ -22,6 +22,7 @@ from qiime2.plugin import Citations
 from qiime2.plugin import Collection
 from qiime2.plugin import Float
 from qiime2.plugin import Int
+from qiime2.plugin import List
 from qiime2.plugin import Plugin
 from qiime2.plugin import Range
 from qiime2.plugin import Str
@@ -51,7 +52,7 @@ plugin.methods.register_function(
         "demultiplexed_seqs": Collection[SampleData[PairedEndSequencesWithQuality]]
     },
     parameters={
-        "primer_definition": Str,
+        "primer_definition": List[Str],
         "abundance": Int % Range(2, None),
         "abundance_fraction": Float
         % Range(0, 1, inclusive_start=True, inclusive_end=True),
@@ -74,8 +75,8 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         "primer_definition": (
-            "Semi-colon separated list of amplicon and primer definitions in the "
-            "form <NAME>:<LEFT>:<RIGHT>:<MINLEN>:<MAXLEN> where IUPAC ambiguitity "
+            "One or more amplicon definition giving the name and primer definitions "
+            "as <NAME>:<LEFT>:<RIGHT>:<MINLEN>:<MAXLEN> where IUPAC ambiguitity "
             "codes can be used for the primer sequences, and the lengths can be "
             "omitted defaulting to 100 and 1000bp."
         ),

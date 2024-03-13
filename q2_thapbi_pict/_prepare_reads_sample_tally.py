@@ -71,10 +71,10 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
         )
 
 
-def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> list:
+def setup_marker(db_url: str, primer_definition: list, debug: bool = False) -> list:
     """Define primers in temporary THAPBI PICT database."""
     markers = []
-    for primer in primer_definition.split(";"):
+    for primer in primer_definition:
         marker, left, right, minlen, maxlen = primer.split(":")
         minlen = int(minlen) if minlen else None
         maxlen = int(maxlen) if maxlen else None
@@ -108,7 +108,7 @@ def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> li
 
 # Can't say (dict[BIOMV210Format], dict[DNAFASTAFormat]) in Python 3.8
 # and Qiime2 wants us to to say (BIOMV210Format, DNAFASTAFormat) instead.
-# Likewise for the demultiplexed_seqs
+# Likewise for the dict[demultiplexed_seqs] and list[str] for primers.
 def prepare_reads_sample_tally(
     demultiplexed_seqs: SingleLanePerSamplePairedEndFastqDirFmt,
     primer_definition: str,
