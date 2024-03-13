@@ -64,6 +64,9 @@ using the `Conda <https://conda.io/>`__ packaging system.
 
         $ pip install q2-thapbi-pict
 
+   This will fail ``ERROR: No matching distribution found for q2-types...`` or
+   ``ERROR: No matching distribution found for q2cli...`` if the Qiime2 conda
+   environment is not activated.
 
 Quick Start
 -----------
