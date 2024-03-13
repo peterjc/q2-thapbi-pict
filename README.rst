@@ -51,14 +51,14 @@ using the `Conda <https://conda.io/>`__ packaging system.
 
 1. Activate your Qiime2 conda environment.
 
-2. Install THAPBI PICT using conda via the BioConda channel, which will handle
-   *all* the dependencies:
+2. Install the paired read merging tool Flash used by THAPBI PICT using conda:
 
    .. code:: console
 
-        $ conda install -c bioconda thapbi_pict
+        $ conda install -c conda-forge flash
 
-3. Install the THAPBI PICT plugin for Qiime2 using pip:
+3. Install the THAPBI PICT plugin for Qiime2 (and its Python dependencies which
+   include THAPBI PICT and CutAdapt) using pip:
 
    .. code:: console
 
