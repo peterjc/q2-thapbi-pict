@@ -45,16 +45,24 @@ PICT functionality from within Qiime2.
 Installation
 ------------
 
-As per the Qiime2 ecosystem, we recommend installing the plugin (and the
-underlying tools) on Linux or macOS using the `Conda <https://conda.io/>`__
-packaging system, which will handle *all* the dependencies:
-
-.. code:: console
-
-   $ conda install q2-thapbi-pict
-
 Qiime2 is not available natively on Windows, instead they recommend using the
-Windows Subsystem for Linux (WSL).
+Windows Subsystem for Linux (WSL). Follow the Qiime2 installation instructions
+using the `Conda <https://conda.io/>`__ packaging system.
+
+1. Activate your Qiime2 conda environment.
+
+2. Install THAPBI PICT using conda via the BioConda channel, which will handle
+   *all* the dependencies:
+
+   .. code:: console
+
+        $ conda install bioconda::thapbi-pict
+
+3. Install the THAPBI PICT plugin for Qiime2 using pip:
+
+   .. code:: console
+
+        $ pip install q2-thapbi-pict
 
 
 Quick Start
@@ -92,12 +100,19 @@ This lists the available commands, each of which have their own help page:
 
 .. code:: console
 
-
     $ qiime q2-thapbi-pict prepare-reads-sample-tally --help
     Usage: qiime q2-thapbi-pict prepare-reads-sample-tally [OPTIONS]
 
       Takes paired (raw) FASTQ files demultiplexed per sample. Runs THAPBI PICT
       ...
+
+You can confirm the plugin version like this:
+
+.. code:: console
+
+    $ qiime q2-thapbi-pict --version
+    QIIME 2 Plugin 'q2-thapbi-pict' version 0.0.1 (from package 'q2-thapbi-pict' version 0.0.1)
+
 
 Documentation
 -------------
