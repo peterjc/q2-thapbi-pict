@@ -106,8 +106,8 @@ def setup_marker(db_url: str, primer_definition: str, debug: bool = False) -> li
     return markers
 
 
-# Can't say (dict[biom.Table], dict[DNAFASTAFormat]) in Python 3.8
-# and Qiime2 wants us to to say (biom.Table, DNAFASTAFormat) instead.
+# Can't say (dict[BIOMV210Format], dict[DNAFASTAFormat]) in Python 3.8
+# and Qiime2 wants us to to say (BIOMV210Format, DNAFASTAFormat) instead.
 # Likewise for the demultiplexed_seqs
 def prepare_reads_sample_tally(
     demultiplexed_seqs: SingleLanePerSamplePairedEndFastqDirFmt,
@@ -200,7 +200,7 @@ def prepare_reads_sample_tally(
             spike_genus="",
             min_abundance=abundance,
             min_abundance_fraction=abundance_fraction,
-            # Historical behaviour, discards rare control-only ASVs:
+            # Match current THAPBI PICT pipeline behaviour:
             total_min_abundance=abundance,
             denoise_algorithm=denoise,
             unoise_alpha=unoise_alpha,
