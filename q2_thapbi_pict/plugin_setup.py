@@ -25,7 +25,6 @@ from qiime2.plugin import Int
 from qiime2.plugin import Plugin
 from qiime2.plugin import Range
 from qiime2.plugin import Str
-from qiime2.plugin import Threads
 
 import q2_thapbi_pict
 
@@ -60,7 +59,8 @@ plugin.methods.register_function(
         "denoise": Str,
         "unoise_alpha": Float % Range(0, None),
         "unoise_gamma": Int % Range(1, None),
-        "cpu": Threads,
+        # Could use Threads here, but requires Qiime2 2024.2 or later:
+        "cpu": Int % Range(0, None),
         "debug": Bool,
     },
     # TODO - make these into collections, one per marker?
