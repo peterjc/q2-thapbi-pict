@@ -118,7 +118,7 @@ def prepare_reads_sample_tally(
     denoise: str = "-",
     unoise_alpha: Optional[float] = None,
     unoise_gamma: Optional[int] = None,
-    cpu: int = 0,
+    cpu: int = 1,
     debug: bool = False,
 ) -> (BIOMV210Format, DNAFASTAFormat):
     """THAPBI PICT's prepare-reads and sample-tally.
