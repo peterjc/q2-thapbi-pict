@@ -75,7 +75,7 @@ setup(
     download_url="https://github.com/peterjc/q2-thapbi-pict",
     description="Qiime2 plugin for THAPBI PICT.",
     project_urls={
-        "Documentation": "https://thapbi-pict.readthedocs.io/",
+        "Documentation": "https://thapbi-pict.readthedocs.io/",  # Main package
         "Source": "https://github.com/peterjc/q2-thapbi-pict/",
         "Tracker": "https://github.com/peterjc/q2-thapbi-pict/issues",
     },
@@ -99,12 +99,19 @@ setup(
     entry_points={
         "qiime2.plugins": ["q2-thapbi-pict=q2_thapbi_pict.plugin_setup:plugin"]
     },
+    packages=["q2_thapbi_pict"],
     package_data={
         "q2_thapbi_pict": ["citations.bib"],
     },
     include_package_data=True,
     install_requires=[
-        "thapbi_pict >=1.0.0",
-        "qiime2",
+        # Tested on thapbi_pict 1.0.12 under Python 3.8 from
+        # conda installed qiime2 version 2024.2 or 2023.5
+        "thapbi_pict >=1.0.12,<1.1",  # Upper bound a precaution
+        # Qiime packages not on PyPI but via qiime2 conda channel...
+        # Need at least 2023.5 for Collections data type
+        "q2-types >=2023.5",
+        "q2cli >=2023.5",
+        "biom-format >=2.1.12",
     ],
 )
