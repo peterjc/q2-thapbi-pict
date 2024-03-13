@@ -55,4 +55,15 @@ Otherwise changes to the plugin code take effect next time it is used.
 Release process
 ---------------
 
-Pending.
+The Qiime2 plugin is released on PyPI (as is THAPBI PICT itself):
+
+.. code:: bash
+
+    rm -rf build/
+    python -m build
+    git tag vX.Y.Z
+    git push origin main --tags
+    twine upload dist/q2_thapbi_pict-X.Y.Z*
+
+However, we do not package the Qiime2 plugin in BioConda as we'd need to
+depend on the Qiime2 conda channel.

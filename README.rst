@@ -4,6 +4,9 @@
 .. image:: https://results.pre-commit.ci/badge/github/peterjc/q2-thapbi-pict/main.svg
    :target: https://results.pre-commit.ci/latest/github/peterjc/q2-thapbi-pict/main
    :alt: pre-commit.ci status
+.. image:: https://img.shields.io/pypi/v/q2-thapbi_pict.svg?label=PyPI
+   :alt: Released on the Python Package Index (PyPI)
+   :target: https://pypi.org/project/q2-thapbi-pict/
 .. image:: https://img.shields.io/badge/Code%20style-black-000000.svg
    :alt: Code style: black
    :target: https://github.com/python/black
