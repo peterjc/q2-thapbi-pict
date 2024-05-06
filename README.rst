@@ -1,3 +1,6 @@
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.11121862
+   :alt: Zenodo DOI
+   :target: https://zenodo.org/doi/10.5281/zenodo.11121862
 .. image:: https://img.shields.io/github/license/peterjc/q2-thapbi-pict.svg?label=License
    :alt: MIT License
    :target: https://github.com/peterjc/q2-thapbi-pict/blob/main/LICENSE.rst

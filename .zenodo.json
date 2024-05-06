@@ -1,0 +1,20 @@
+{
+    "language": "eng",
+    "license": "MIT",
+    "upload_type": "software",
+    "creators": [
+        {
+            "orcid": "0000-0001-9513-9993",
+            "affiliation": "The James Hutton Institute",
+            "name": "Peter Cock"
+        }
+    ],
+    "keywords": [
+        "python",
+        "qiime2",
+        "amplicon sequencing",
+        "metabarcoding",
+        "DNA barcoding",
+        "environmental DNA"
+    ]
+}
