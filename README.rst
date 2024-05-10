@@ -1,4 +1,4 @@
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.11121862
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.11121862.svg
    :alt: Zenodo DOI
    :target: https://zenodo.org/doi/10.5281/zenodo.11121862
 .. image:: https://img.shields.io/github/license/peterjc/q2-thapbi-pict.svg?label=License
