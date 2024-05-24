@@ -123,7 +123,7 @@ def prepare_reads_sample_tally(
 ) -> (BIOMV210Format, DNAFASTAFormat):
     """THAPBI PICT's prepare-reads and sample-tally.
 
-    Starts by making a temporary workind directory. Into this it creates a
+    Starts by making a temporary working directory. Into this it creates a
     ``raw_data/`` folder of symlinks using ``<SAMPLE>_R1.fastq.gz`` and
     ``<SAMPLE>_R2.fastq.gz`` naming based on the QZA file manifest. Then takes
     the given primer definitations, and sets up a dummy THAPBI PICT database
