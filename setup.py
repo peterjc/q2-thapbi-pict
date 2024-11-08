@@ -5,21 +5,19 @@
 # file that should have been included as part of this package.
 """setuptools based setup script for the Qiime2 plugin for THAPBI PICT.
 
-This uses setuptools which is now the standard python mechanism for installing
-packages (and is used internally by the tool pip). If you have downloaded and
-uncompressed the THAPBI PICT source code, or fetched it from git, for the
-simplest installation try one of these commands::
+We assume you have installed thapbi-pict, either with pip:
+
+    pip install thapbi-pict
+
+Or with conda which will also handle the non-Python dependencies:
+
+    conda install thapbi-pict
+
+Then install the Qiime2 plugin. This uses setuptools which is now the standard
+python mechanism for installing packages (and is used internally by the tool pip).
+Try:
 
     pip install .
-
-Or::
-
-    python setup.py install
-
-Typically however, since we have released this software via cond, you don't
-need to download it first. Instead just run::
-
-    conda install q2-thapbi-pict
 
 Once installed, you should be able to use the plugin via the ``qiime2``
 command (the Qiime2 command line interface, q2cli).
@@ -41,9 +39,10 @@ except ImportError:
 
 
 # Make sure we have the right Python version.
+# Later versions of THAPBI PICT need something much newer!
 if sys.version_info[:2] < (3, 7):  # noqa: UP036
     sys.exit(
-        "THAPBI PICT requires Python 3.7 or later. "
+        "Early THAPBI PICT required Python 3.7 or later. "
         "Python %d.%d detected.\n" % sys.version_info[:2]
     )
 
