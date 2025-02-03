@@ -58,7 +58,7 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
         raise ValueError("Mismatched forward and reverse sample names in MANIFEST")
     if debug:
         sys.stderr.write(
-            f"DEBUG: Making symlinks to {2*len(fwd)} FASTQ under {raw_data}\n"
+            f"DEBUG: Making symlinks to {2 * len(fwd)} FASTQ under {raw_data}\n"
         )
     for sample in fwd:
         os.symlink(
