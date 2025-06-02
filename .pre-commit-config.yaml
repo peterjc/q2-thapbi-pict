@@ -27,7 +27,7 @@ repos:
         language: pygrep
         files: \.(py|sh|rst|yml|yaml)$
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.8
+    rev: v0.11.12
     hooks:
     # Run the Ruff linter (flake8 alternative):
     -   id: ruff
@@ -66,7 +66,7 @@ repos:
         additional_dependencies: [black==23.10.1]
         exclude: ^.github/
 -   repo: https://github.com/rstcheck/rstcheck
-    rev: v6.2.4
+    rev: v6.2.5
     hooks:
     -   id: rstcheck
         args: [
@@ -88,7 +88,7 @@ repos:
         files: \.(py|sh|rst|yml|yaml)$
         args: ['-L', 'sintax,nin,otu']
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.15.0
+    rev: v1.16.0
     hooks:
     -   id: mypy
         # equivalent to "files" in .mypy.ini
