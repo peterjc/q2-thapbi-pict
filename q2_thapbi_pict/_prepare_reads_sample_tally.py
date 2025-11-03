@@ -8,7 +8,6 @@
 import os
 import sys
 import tempfile
-from typing import Optional
 
 from q2_types.feature_data import DNAFASTAFormat
 from q2_types.feature_table import BIOMV210Format
@@ -116,8 +115,8 @@ def prepare_reads_sample_tally(
     abundance_fraction: float = 0.001,
     flip: bool = False,
     denoise: str = "-",
-    unoise_alpha: Optional[float] = None,
-    unoise_gamma: Optional[int] = None,
+    unoise_alpha: float | None = None,
+    unoise_gamma: int | None = None,
     cpu: int = 1,
     debug: bool = False,
 ) -> (BIOMV210Format, DNAFASTAFormat):
