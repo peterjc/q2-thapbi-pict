@@ -54,7 +54,6 @@ repos:
             'flake8-rst-docstrings',
             'flake8-bugbear',
             'flake8-sfs',
-            'flake8-pie',
             'flake8-comprehensions',
             'flake8-implicit-str-concat',
             'pydocstyle>=5.0.0',
