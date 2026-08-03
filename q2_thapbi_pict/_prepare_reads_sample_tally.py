@@ -59,7 +59,7 @@ def setup_rawdata(qza_folder: str, raw_data: str, debug: bool = False) -> None:
         sys.stderr.write(
             f"DEBUG: Making symlinks to {2 * len(fwd)} FASTQ under {raw_data}\n"
         )
-    for sample in fwd:
+    for sample in fwd:  # noqa: PLC0206
         os.symlink(
             os.path.join(qza_folder, fwd[sample]),
             os.path.join(raw_data, sample + "_R1.fastq.gz"),
